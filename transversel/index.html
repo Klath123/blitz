@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blitz File Server</title>
+  <!-- Files are stored in /storage/ -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="cursor" id="cursor"></div>
+
+    <!-- Files are stored in /storage/ -->
+  <div class="disco-ball"></div>
+
+  <!-- Light beams -->
+  <div class="beam" style="background:linear-gradient(var(--pink),transparent); --start-angle:-40deg; animation-duration:7s;"></div>
+  <div class="beam" style="background:linear-gradient(var(--cyan),transparent); --start-angle:20deg;  animation-duration:9s;"></div>
+  <div class="beam" style="background:linear-gradient(var(--yellow),transparent);--start-angle:60deg;  animation-duration:6s;"></div>
+  <div class="beam" style="background:linear-gradient(var(--purple),transparent);--start-angle:-70deg; animation-duration:11s;"></div>
+  <div class="beam" style="background:linear-gradient(var(--green),transparent); --start-angle:110deg; animation-duration:8s;"></div>
+
+  <!-- Roaming light blobs -->
+  <div class="spot" style="width:280px;height:280px;background:var(--pink);  top:20%;left:10%;  --dx:200px;--dy:100px; animation-duration:8s; animation-delay:0s;"></div>
+  <div class="spot" style="width:220px;height:220px;background:var(--cyan);  top:50%;right:15%; --dx:-150px;--dy:-80px;animation-duration:10s;animation-delay:2s;"></div>
+  <div class="spot" style="width:200px;height:200px;background:var(--purple);top:70%;left:30%;  --dx:100px;--dy:-120px;animation-duration:7s; animation-delay:4s;"></div>
+  <div class="spot" style="width:180px;height:180px;background:var(--yellow);top:10%;right:20%; --dx:-80px;--dy:180px; animation-duration:12s;animation-delay:1s;"></div>
+
+  <!-- Disco floor -->
+  <div class="floor" id="floor"></div>
+
+  <!-- Left emoji strip -->
+  <div class="emoji-strip left">
+    <span style="--glow:#ff2d78; animation-delay:0s;">🎵</span>
+    <span style="--glow:#00f5ff; animation-delay:0.4s;">💿</span>
+    <span style="--glow:#fff200; animation-delay:0.8s;">⚡</span>
+    <span style="--glow:#39ff14; animation-delay:1.2s;">🌐</span>
+    <span style="--glow:#bf00ff; animation-delay:1.6s;">🎶</span>
+    <span style="--glow:#ff6a00; animation-delay:2.0s;">🔥</span>
+    <span style="--glow:#ff2d78; animation-delay:2.4s;">✨</span>
+  </div>
+
+  <!-- Right emoji strip -->
+  <div class="emoji-strip right">
+    <span style="--glow:#00f5ff; animation-delay:0.2s;">🗄️</span>
+    <span style="--glow:#ff2d78; animation-delay:0.6s;">🎤</span>
+    <span style="--glow:#39ff14; animation-delay:1.0s;">💾</span>
+    <span style="--glow:#fff200; animation-delay:1.4s;">🎸</span>
+    <span style="--glow:#ff6a00; animation-delay:1.8s;">🛸</span>
+    <span style="--glow:#bf00ff; animation-delay:2.2s;">🎯</span>
+    <span style="--glow:#00f5ff; animation-delay:2.6s;">🌟</span>
+  </div>
+
+  <div class="card">
+    <span class="server-icon">🗄️</span>
+    <h1>Welcome to<br>Blitz File Server</h1>
+    <div class="divider"></div>
+    <p class="subtitle">Nothing interesting here <span class="emoji">:)</span><span class="blink"></span></p>
+    <div class="statusbar">
+      <div class="dot"></div>
+      server online
+    </div>
+  </div>
+2
+  
+  <script src="storage/script.js"></script>
+</body>2
+</html>

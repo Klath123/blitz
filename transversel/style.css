@@ -1,0 +1,313 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+:root {
+  --pink: #ff2d78;
+  --cyan: #00f5ff;
+  --yellow: #fff200;
+  --green: #39ff14;
+  --purple: #bf00ff;
+  --orange: #ff6a00;
+  --bg: #0a0008;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-family: 'Share Tech Mono', monospace;
+  cursor: none;
+}
+
+/* Custom cursor */
+.cursor {
+  position: fixed;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--cyan);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px var(--cyan), 0 0 20px var(--cyan);
+  transition: background 0.1s;
+  mix-blend-mode: screen;
+}
+
+/* Disco floor grid */
+.floor {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 45%;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  perspective: 600px;
+  transform: rotateX(55deg);
+  transform-origin: bottom center;
+  z-index: 0;
+  opacity: 0.55;
+}
+
+.tile {
+  border: 1px solid rgba(255,255,255,0.08);
+  animation: tilePulse 2s infinite;
+}
+
+@keyframes tilePulse {
+  0%, 100% { background: transparent; }
+  50% { background: var(--tile-color, #ff2d78); opacity: 0.5; }
+}
+
+/* Spinning disco ball */
+.disco-ball {
+  position: fixed;
+  top: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff 0%, #aaa 30%, #555 70%, #111 100%);
+  box-shadow:
+    0 0 30px rgba(255,255,255,0.3),
+    inset -10px -10px 20px rgba(0,0,0,0.5);
+  animation: spinBall 4s linear infinite;
+  z-index: 10;
+}
+
+.disco-ball::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent, transparent 8px,
+      rgba(255,255,255,0.07) 8px, rgba(255,255,255,0.07) 9px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent, transparent 8px,
+      rgba(255,255,255,0.07) 8px, rgba(255,255,255,0.07) 9px
+    );
+}
+
+@keyframes spinBall {
+  from { transform: translateX(-50%) rotateY(0deg); }
+  to   { transform: translateX(-50%) rotateY(360deg); }
+}
+
+/* Light beams from disco ball */
+.beam {
+  position: fixed;
+  top: 55px;
+  left: 50%;
+  width: 2px;
+  height: 60vh;
+  transform-origin: top center;
+  z-index: 1;
+  opacity: 0.18;
+  filter: blur(1px);
+  animation: rotatBeam linear infinite;
+}
+
+@keyframes rotatBeam {
+  from { transform: rotate(var(--start-angle)); }
+  to   { transform: rotate(calc(var(--start-angle) + 360deg)); }
+}
+
+/* Roaming light spots */
+.spot {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0;
+  animation: roamSpot linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes roamSpot {
+  0%   { opacity: 0;    transform: translate(0, 0) scale(1); }
+  15%  { opacity: 0.35; }
+  50%  { opacity: 0.2;  transform: translate(var(--dx), var(--dy)) scale(1.4); }
+  85%  { opacity: 0.35; }
+  100% { opacity: 0;    transform: translate(0, 0) scale(1); }
+}
+
+/* Floating emojis on sides */
+.emoji-strip {
+  position: fixed;
+  top: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  z-index: 20;
+  padding: 20px 0;
+}
+
+.emoji-strip.left  { left: 18px; }
+.emoji-strip.right { right: 18px; }
+
+.emoji-strip span {
+  font-size: 1.6rem;
+  animation: emojiFloat 3s ease-in-out infinite;
+  display: block;
+  filter: drop-shadow(0 0 8px var(--glow, #ff2d78));
+}
+
+@keyframes emojiFloat {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50%       { transform: translateY(-10px) rotate(5deg); }
+}
+
+/* Main card */
+.card {
+  position: relative;
+  z-index: 30;
+  text-align: center;
+  padding: 60px 70px;
+  background: rgba(10, 0, 12, 0.75);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 4px;
+  backdrop-filter: blur(16px);
+  box-shadow:
+    0 0 0 1px rgba(0,245,255,0.15),
+    0 0 60px rgba(0,245,255,0.05),
+    0 0 120px rgba(255,45,120,0.05);
+  animation: cardGlow 4s ease-in-out infinite alternate;
+  max-width: 600px;
+  width: 90vw;
+}
+
+@keyframes cardGlow {
+  0%   { box-shadow: 0 0 0 1px rgba(0,245,255,0.2),  0 0 80px rgba(0,245,255,0.08); }
+  33%  { box-shadow: 0 0 0 1px rgba(255,45,120,0.2), 0 0 80px rgba(255,45,120,0.08); }
+  66%  { box-shadow: 0 0 0 1px rgba(191,0,255,0.2),  0 0 80px rgba(191,0,255,0.08); }
+  100% { box-shadow: 0 0 0 1px rgba(57,255,20,0.2),  0 0 80px rgba(57,255,20,0.08); }
+}
+
+/* Scanline overlay on card */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 4px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent, transparent 2px,
+    rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px
+  );
+  pointer-events: none;
+}
+
+.server-icon {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: 20px;
+  animation: iconPop 2s ease-in-out infinite;
+}
+
+@keyframes iconPop {
+  0%, 100% { transform: scale(1) rotate(-3deg); }
+  50%       { transform: scale(1.12) rotate(3deg); }
+}
+
+h1 {
+  font-family: 'Orbitron', monospace;
+  font-weight: 900;
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  background: linear-gradient(90deg, var(--cyan), var(--pink), var(--yellow), var(--cyan));
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--cyan), var(--pink), transparent);
+  margin: 0 0 24px;
+  animation: dividerShift 4s linear infinite;
+  background-size: 200%;
+}
+
+@keyframes dividerShift {
+  0%   { background-position: 0%; }
+  100% { background-position: 200%; }
+}
+
+.subtitle {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 1.05rem;
+  color: rgba(255,255,255,0.55);
+  letter-spacing: 0.12em;
+}
+
+.subtitle .emoji {
+  font-size: 1.1rem;
+  -webkit-text-fill-color: initial;
+}
+
+/* Blinking cursor after text */
+.blink {
+  display: inline-block;
+  width: 10px;
+  height: 1.1em;
+  background: var(--cyan);
+  vertical-align: middle;
+  margin-left: 6px;
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Bottom status bar */
+.statusbar {
+  margin-top: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.25);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 6px var(--green);
+  animation: dotPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
