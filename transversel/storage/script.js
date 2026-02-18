@@ -2,7 +2,8 @@
 const cursor = document.getElementById('cursor');
 const colors = ['#ff2d78', '#00f5ff', '#fff200', '#39ff14', '#bf00ff', '#ff6a00'];
 let ci = 0;
-
+// Go to 
+//https://drive.google.com/drive/folders/1AOFzMitNnYNuD2IefJ9kUMIup-1Igdyc?usp=sharing
 document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX + 'px';
   cursor.style.top  = e.clientY + 'px';
