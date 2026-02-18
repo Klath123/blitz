@@ -11,7 +11,7 @@ app.use(cors({ origin: "*" }));
 // Secret configuration
 // -------------------------
 
-const FLAG = "blitz{dual_hash_split_master}";
+const FLAG = "YGpncnh5YnNfamZfcWZdcW5qZ3Jda19xcmNwew0K";
 const REAL_KEY = "X7A9K2";
 
 // Split key
