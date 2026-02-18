@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Invoice Viewer</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+
+    background: #0a0a0f;
+    color: #00ff88;
+    font-family: monospace;
+    padding: 50px;
+
+}
+
+.box {
+
+    border: 1px solid #00ff88;
+    padding: 20px;
+    width: 500px;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>Invoice Viewer</h2>
+
+<div class="box" id="invoice">
+
+Loading...
+
+</div>
+
+<script>
+
+const API = "http://localhost:3020/api";
+
+const token =
+    localStorage.getItem("token");
+
+if (!token) {
+
+    window.location = "login.html";
+
+}
+
+
+// read id from URL
+const params =
+    new URLSearchParams(window.location.search);
+
+const id =
+    params.get("id") || "1001";
+
+loadInvoice(id);
+
+
+async function loadInvoice(id) {
+
+    const res = await fetch(
+        API + "/invoice?id=" + id,
+        {
+            headers: {
+                Authorization: token
+            }
+        }
+    );
+
+    const data = await res.json();
+
+    document.getElementById("invoice")
+        .innerText =
+            JSON.stringify(data, null, 2);
+
+}
+
+</script>
+
+</body>
+</html>

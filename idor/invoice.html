@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<title>Blitz Logistics — Invoice</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+
+    background: linear-gradient(
+        135deg,
+        #a8edea,
+        #fed6e3
+    );
+
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+/* main card */
+
+.card {
+
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 16px;
+
+    width: 420px;
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.15);
+
+    animation: float 4s ease-in-out infinite;
+
+}
+
+@keyframes float {
+
+    0%,100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+
+}
+
+
+/* header */
+
+.header {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 20px;
+
+}
+
+.title {
+
+    font-size: 22px;
+    font-weight: 600;
+
+}
+
+.logout {
+
+    background: #ff6b6b;
+    border: none;
+    color: white;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+
+}
+
+.logout:hover {
+
+    opacity: 0.8;
+
+}
+
+
+/* invoice display */
+
+.invoice-box {
+
+    background: #f8f9ff;
+
+    padding: 20px;
+
+    border-radius: 12px;
+
+    font-size: 15px;
+
+}
+
+
+/* playful label */
+
+.label {
+
+    font-weight: 600;
+    margin-top: 10px;
+
+}
+
+.value {
+
+    color: #555;
+
+}
+
+
+/* hint */
+
+.hint {
+
+    margin-top: 20px;
+    font-size: 13px;
+    color: gray;
+    text-align: center;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="card">
+
+<div class="header">
+
+<div class="title">
+📄 Invoice Viewer
+</div>
+
+<button class="logout" onclick="logout()">
+Logout
+</button>
+
+</div>
+
+<div class="invoice-box" id="invoice">
+
+Loading invoice...
+
+</div>
+
+<div class="hint">
+Tip: You can change invoice ID in the URL 😉
+</div>
+
+</div>
+
+
+<script>
+
+const API = "http://localhost:3020/api";
+
+const token =
+    localStorage.getItem("token");
+
+if (!token) {
+
+    window.location = "login.html";
+
+}
+
+
+// read ID from URL
+const params =
+    new URLSearchParams(window.location.search);
+
+const id =
+    params.get("id") || "1001";
+
+loadInvoice(id);
+
+
+async function loadInvoice(id) {
+
+    try {
+
+        const res = await fetch(
+            API + "/invoice?id=" + id,
+            {
+                headers: {
+                    Authorization: token
+                }
+            }
+        );
+
+        const data = await res.json();
+
+        displayInvoice(data);
+
+    }
+    catch {
+
+        document.getElementById("invoice")
+            .innerText = "Error loading invoice";
+
+    }
+
+}
+
+
+function displayInvoice(data) {
+
+    const box =
+        document.getElementById("invoice");
+
+    if (data.error) {
+
+        box.innerHTML =
+            `<div style="color:red">${data.error}</div>`;
+
+        return;
+
+    }
+
+    box.innerHTML = `
+
+        <div class="label">Invoice ID</div>
+        <div class="value">${data.id}</div>
+
+        <div class="label">Item</div>
+        <div class="value">${data.item}</div>
+
+        <div class="label">Amount</div>
+        <div class="value">${data.amount}</div>
+
+        ${
+            data.note ?
+            `<div class="label">Note</div>
+             <div class="value">${data.note}</div>`
+            : ""
+        }
+
+    `;
+
+}
+
+
+function logout() {
+
+    localStorage.removeItem("token");
+
+    window.location = "login.html";
+
+}
+
+</script>
+
+</body>
+</html>
