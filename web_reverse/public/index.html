@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Key Validator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --panel: #0f0f1a;
+      --border: #1a1a2e;
+      --green: #00ff88;
+      --green-dim: #00ff8833;
+      --red: #ff3355;
+      --red-dim: #ff335533;
+      --text: #c8d8e8;
+      --muted: #445566;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.08) 2px,
+        rgba(0,0,0,0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* Grid background */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,255,136,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,136,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 420px;
+      animation: fadeIn 0.8s ease both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .header .label {
+      font-size: 11px;
+      letter-spacing: 6px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .header h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--green);
+      text-shadow: 0 0 20px var(--green), 0 0 40px var(--green-dim);
+      letter-spacing: 3px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 36px;
+      position: relative;
+    }
+
+    /* Corner decorations */
+    .panel::before, .panel::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-color: var(--green);
+      border-style: solid;
+    }
+    .panel::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+    .panel::after  { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+    .field-label {
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .input-wrap {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      background: #080810;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--green);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 22px;
+      letter-spacing: 10px;
+      padding: 16px 20px;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      text-align: center;
+    }
+
+    .input-wrap input:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px var(--green), inset 0 0 20px var(--green-dim);
+    }
+
+    .input-wrap input::placeholder {
+      color: var(--muted);
+      letter-spacing: 6px;
+    }
+
+    /* Blinking cursor effect on focus */
+    .input-wrap input:focus {
+      caret-color: var(--green);
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--green);
+      border-radius: 3px;
+      color: var(--green);
+      font-family: 'Orbitron', monospace;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 4px;
+      padding: 16px;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button[type="submit"]:hover {
+      background: var(--green-dim);
+      box-shadow: 0 0 20px var(--green-dim);
+    }
+
+    button[type="submit"]:active {
+      transform: scale(0.98);
+    }
+
+    button[type="submit"].loading {
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    /* Result box */
+    .result {
+      margin-top: 24px;
+      padding: 16px 20px;
+      border-radius: 3px;
+      font-size: 13px;
+      letter-spacing: 1px;
+      line-height: 1.6;
+      display: none;
+      animation: slideIn 0.3s ease both;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result.success {
+      display: block;
+      background: var(--green-dim);
+      border: 1px solid var(--green);
+      color: var(--green);
+    }
+
+    .result.error {
+      display: block;
+      background: var(--red-dim);
+      border: 1px solid var(--red);
+      color: var(--red);
+    }
+
+    .result .tag {
+      font-size: 10px;
+      letter-spacing: 4px;
+      opacity: 0.7;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .result .message {
+      font-size: 15px;
+      word-break: break-all;
+    }
+
+    /* Attempt counter */
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 2px;
+    }
+
+    #attempt-count { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="label">Security System</div>
+    <h1>KEY VALIDATOR</h1>
+  </div>
+
+  <div class="panel">
+    <div class="field-label">Access Key</div>
+    <div class="input-wrap">
+      <input
+        type="text"
+        id="keyInput"
+        maxlength="20"
+        placeholder="_ _ _ _ _ _"
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+
+    <button type="submit" id="submitBtn" onclick="validate()">
+      Validate Key
+    </button>
+
+    <div class="result" id="result">
+      <div class="tag" id="resultTag"></div>
+      <div class="message" id="resultMsg"></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Attempts: <span id="attempt-count">0</span> / 5
+  </div>
+</div>
+
+<script>
+
+  let attempts = 0;
+
+  const API_BASE = "http://localhost:3000/api";
+
+  const VALIDATE_URL = API_BASE + "/validate";
+  const INFO_URL = API_BASE + "/info";
+
+
+  // Load hash info when page loads
+  window.onload = loadInfo;
+
+
+  async function loadInfo() {
+
+    try {
+
+      const res = await fetch(INFO_URL);
+
+      const data = await res.json();
+
+      // Show hashes in UI
+      const result = document.getElementById('result');
+      const tag = document.getElementById('resultTag');
+      const msg = document.getElementById('resultMsg');
+
+      tag.textContent = "// SYSTEM INFO";
+
+      msg.innerHTML =
+        "First Half Hash (MD5): " + data.first_half.hash + "<br>" +
+        "Last Half Hash (SHA1): " + data.last_half.hash;
+
+      result.className = "result success";
+
+    }
+    catch {
+
+      console.log("Could not load info");
+
+    }
+
+  }
+
+
+
+  async function validate() {
+
+    const input = document.getElementById('keyInput').value;
+
+    const btn = document.getElementById('submitBtn');
+    const result = document.getElementById('result');
+    const tag = document.getElementById('resultTag');
+    const msg = document.getElementById('resultMsg');
+
+    if (!input) return;
+
+    attempts++;
+
+    document.getElementById('attempt-count').textContent = attempts;
+
+    btn.classList.add('loading');
+
+    btn.textContent = 'Validating...';
+
+    result.className = 'result';
+
+
+    try {
+
+      const res = await fetch(VALIDATE_URL, {
+
+        method: 'POST',
+
+        headers: {
+          'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify({
+          key: input
+        })
+
+      });
+
+      const data = await res.json();
+
+
+      if (res.status === 429) {
+
+        tag.textContent = "// RATE LIMITED";
+
+        msg.textContent = data.message;
+
+        result.className = "result error";
+
+      }
+
+      else if (data.success) {
+
+        tag.textContent = "// ACCESS GRANTED";
+
+        msg.textContent = data.flag;
+
+        result.className = "result success";
+
+      }
+
+      else {
+
+        tag.textContent = "// ACCESS DENIED";
+
+        msg.textContent = data.message;
+
+        result.className = "result error";
+
+      }
+
+    }
+    catch {
+
+      tag.textContent = "// NETWORK ERROR";
+
+      msg.textContent = "Cannot reach API server.";
+
+      result.className = "result error";
+
+    }
+
+
+    btn.classList.remove('loading');
+
+    btn.textContent = 'Validate Key';
+
+  }
+
+</script>
+
+
+
+
+</body>
+</html>
