@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green: #00ffaa;
+  --green-dim: #00ffaa44;
+  --green-faint: #00ffaa11;
+  --bg: #060d0f;
+  --bg2: #03080a;
+  --red: #ff4466;
+  --gold: #ffd700;
+  --cyan: #00ccff;
+  --pink: #ff7eb3;
+  --mono: 'Share Tech Mono', monospace;
+  --orb: 'Orbitron', monospace;
+}
+
+body {
+  background: var(--bg);
+  color: #c8ffe8;
+  font-family: var(--mono);
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--green-dim); border-radius: 2px; }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes blink-caret {
+  0%, 100% { opacity: 1; } 50% { opacity: 0; }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(0,255,170,0.1); }
+  50%       { box-shadow: 0 0 0 6px rgba(0,255,170,0.04); }
+}
+@keyframes scan {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+@keyframes status-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
