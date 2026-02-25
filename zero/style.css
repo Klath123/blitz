@@ -1,0 +1,612 @@
+/* ============================================================
+   VORTEX — Digital Collective
+   style.css | v3.1.7
+   Compiled: 2024-11-08 | Author: VTX Studio
+   ============================================================ */
+
+/* -----------------------------------------------------------------
+   TABLE OF CONTENTS
+   01. Custom Properties (Design Tokens)
+   02. Reset & Base
+   03. Noise + Grid + Glow Effects
+   04. Header
+   05. Hero Section
+   06. Marquee Strip
+   07. Work Grid / Cards
+   08. Manifesto Block
+   09. Stats Row
+   10. Footer
+   11. Animations & Keyframes
+   12. Utilities
+   ----------------------------------------------------------------- */
+
+
+/* =================================================================
+   01. CUSTOM PROPERTIES
+   ================================================================= */
+
+:root {
+  /* Color Palette — Burnt Industrial */
+  --clr-bg:       #0b0b0b;
+  --clr-surface:  #111111;
+  --clr-border:   #2a2a2a;
+  --clr-text:     #e8e2d5;
+  --clr-muted:    #5a5550;
+  --clr-accent:   #e8500a;    /* searing orange */
+  --clr-accent2:  #c8b400;    /* electric mustard */
+  --clr-glow:     rgba(232, 80, 10, 0.18);
+
+  /* Typography */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-mono:    'Space Mono', monospace;
+
+  /* Spacing */
+  --gap:    clamp(1.5rem, 4vw, 3rem);
+  --radius: 2px;
+
+  /* Transitions */
+  --ease: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+
+/* =================================================================
+   02. RESET & BASE
+   ================================================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  line-height: 1.6;
+  cursor: crosshair;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img { display: block; max-width: 100%; }
+
+
+/* =================================================================
+   03. NOISE + GRID + GLOW
+   ================================================================= */
+
+/* Grain overlay — sits on top of everything */
+.noise {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Subtle grid lines */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--clr-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--clr-border) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.25;
+}
+
+/* Mouse glow */
+.cursor-glow {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--clr-glow) 0%, transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: left 0.08s var(--ease), top 0.08s var(--ease);
+}
+
+
+/* =================================================================
+   04. HEADER
+   ================================================================= */
+
+.site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem var(--gap);
+  border-bottom: 1px solid var(--clr-border);
+  backdrop-filter: blur(12px);
+  background: rgba(11,11,11,0.7);
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  letter-spacing: 0.15em;
+  color: var(--clr-accent);
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav a {
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--clr-muted);
+  transition: color 0.2s;
+}
+
+.nav a:hover {
+  color: var(--clr-text);
+}
+
+.header-tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--clr-muted);
+}
+
+
+/* =================================================================
+   05. HERO SECTION
+   ================================================================= */
+
+.hero {
+  position: relative;
+  z-index: 2;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: calc(var(--gap) * 3) var(--gap) var(--gap);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.hero-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--clr-muted);
+  margin-bottom: 1.5rem;
+  animation: fadeUp 0.8s var(--ease) both;
+  animation-delay: 0.1s;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 16vw, 16rem);
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2.5rem;
+}
+
+.hero-title .line {
+  display: block;
+  overflow: hidden;
+}
+
+.hero-title .line:nth-child(1) { animation: fadeUp 0.9s var(--ease) 0.2s both; }
+.hero-title .line:nth-child(2) { animation: fadeUp 0.9s var(--ease) 0.35s both; }
+.hero-title .line:nth-child(3) { animation: fadeUp 0.9s var(--ease) 0.5s both; }
+
+.hero-title .accent {
+  -webkit-text-stroke: 2px var(--clr-accent);
+  color: transparent;
+}
+
+.hero-sub {
+  max-width: 42ch;
+  color: var(--clr-muted);
+  margin-bottom: 2.5rem;
+  animation: fadeUp 0.9s var(--ease) 0.65s both;
+}
+
+.hero-cta {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  animation: fadeUp 0.9s var(--ease) 0.75s both;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: var(--clr-accent);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  border: none;
+  cursor: crosshair;
+  transition: transform 0.2s var(--ease), background 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--clr-accent2);
+  transform: skew(-4deg);
+}
+
+.btn-label {
+  font-size: 0.7rem;
+  color: var(--clr-muted);
+  letter-spacing: 0.1em;
+}
+
+.hero-counter {
+  position: absolute;
+  bottom: var(--gap);
+  right: var(--gap);
+  font-size: 0.7rem;
+  color: var(--clr-muted);
+  letter-spacing: 0.15em;
+  animation: fadeUp 0.9s var(--ease) 0.9s both;
+}
+
+
+/* =================================================================
+   06. MARQUEE STRIP
+   ================================================================= */
+
+/*
+   ---------------------------------------------------------------
+   MODULE: kinetic-type-system
+   Version: 2.4.0
+   Description: Handles all animated typographic elements.
+   Registered components: .marquee-strip, .marquee-inner
+
+   Internal build references:
+     build_id   = vtx-2024-1108-alpha
+     pipeline   = kinetic > layout > scroll
+     renderer   = css-scroll-driven-anim
+   ---------------------------------------------------------------
+*/
+
+.marquee-strip {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  border-bottom: 1px solid var(--clr-border);
+  background: var(--clr-accent);
+  padding: 0.6rem 0;
+}
+
+.marquee-inner {
+  display: flex;
+  white-space: nowrap;
+  animation: marquee 22s linear infinite;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  letter-spacing: 0.1em;
+  color: #fff;
+}
+
+.marquee-inner span {
+  display: inline-block;
+  padding-right: 0;
+}
+
+
+/* =================================================================
+   07. WORK GRID / CARDS
+   ================================================================= */
+
+.work-grid {
+  position: relative;
+  z-index: 2;
+  padding: var(--gap);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.section-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--clr-muted);
+  margin-bottom: calc(var(--gap) * 1.5);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: auto auto;
+  gap: 1px;
+  background: var(--clr-border);
+}
+
+/*
+  ================================================================
+  SECTION: Card Component Definitions
+  Author note: these cards are meant to feel like physical objects
+  — tactile, weighted, slightly dangerous.
+
+  !! INTERNAL ONLY — DO NOT COMMIT TO PUBLIC REPO !!
+
+  Legacy flag embedded during v1 build cycle — kept for archival.
+  You probably won't notice it. Most don't. Scan carefully.
+
+  To verify build integrity, check for the pattern:
+    blitz{...} somewhere in this stylesheet.
+
+  If you're reading this, congratulations. You're patient.
+
+  Anyway, continuing with the card styles below:
+  ================================================================
+*/
+
+.card {
+  grid-column: span 6;
+  background: var(--clr-surface);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 260px;
+  transition: background 0.3s var(--ease);
+  cursor: crosshair;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--clr-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s var(--ease);
+  opacity: 0.06;
+}
+
+.card:hover::before { transform: scaleX(1); }
+
+.card:hover .card-num {
+  color: var(--clr-accent);
+}
+
+.card--large {
+  grid-column: span 8;
+  min-height: 340px;
+}
+
+.card--wide {
+  grid-column: span 12;
+  flex-direction: row;
+  align-items: flex-end;
+  min-height: 180px;
+}
+
+.card-num {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--clr-muted);
+  transition: color 0.3s;
+}
+
+.card-body h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4vw, 3.5rem);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.card-body p {
+  color: var(--clr-muted);
+  font-size: 0.8rem;
+  max-width: 36ch;
+}
+
+.card-tag {
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
+  color: var(--clr-accent);
+  align-self: flex-end;
+}
+
+.card--wide .card-body { flex: 1; }
+.card--wide .card-tag  { white-space: nowrap; padding-left: 2rem; }
+
+
+/* =================================================================
+   08. MANIFESTO BLOCK
+   ================================================================= */
+
+.manifesto {
+  position: relative;
+  z-index: 2;
+  padding: calc(var(--gap) * 2.5) var(--gap);
+  border-bottom: 1px solid var(--clr-border);
+  text-align: center;
+}
+
+.manifesto-number {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  color: var(--clr-muted);
+  margin-bottom: 2rem;
+}
+
+.manifesto blockquote {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 5rem);
+  line-height: 1.05;
+  max-width: 22ch;
+  margin: 0 auto 2rem;
+  letter-spacing: 0.01em;
+}
+
+.manifesto-sig {
+  font-size: 0.7rem;
+  color: var(--clr-muted);
+  letter-spacing: 0.15em;
+}
+
+
+/* =================================================================
+   09. STATS ROW
+   ================================================================= */
+
+/*
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  STATS MODULE v1.2
+  Handles the four-column statistics display.
+
+  Config values (internal build vars, not exposed to runtime):
+    col_span       : 4
+    animation_type : count-up (js-driven)
+    refresh_ms     : 3000
+
+  Audit log:
+    [2024-01-15] init module
+    [2024-03-02] added border treatment
+    [2024-06-17] swapped font to mono
+    [2024-09-04] blitz{y0u_f0und_th3_h1dd3n_fl4g_gg}
+    [2024-10-11] minor spacing adjustment
+    [2024-11-08] final polish pass
+
+  Nothing unusual to see here. Just standard stat counters.
+  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+*/
+
+.stats-row {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.stat {
+  padding: calc(var(--gap) * 1.5) var(--gap);
+  border-right: 1px solid var(--clr-border);
+  text-align: center;
+  transition: background 0.3s;
+}
+
+.stat:last-child { border-right: none; }
+
+.stat:hover {
+  background: var(--clr-surface);
+}
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 7rem);
+  line-height: 1;
+  color: var(--clr-accent2);
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: var(--clr-muted);
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+
+/* =================================================================
+   10. FOOTER
+   ================================================================= */
+
+.site-footer {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem var(--gap);
+}
+
+.site-footer div {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--clr-muted);
+}
+
+.footer-center {
+  color: var(--clr-accent) !important;
+}
+
+
+/* =================================================================
+   11. ANIMATIONS & KEYFRAMES
+   ================================================================= */
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+
+/* =================================================================
+   12. UTILITIES & RESPONSIVE
+   ================================================================= */
+
+@media (max-width: 768px) {
+  .card,
+  .card--large { grid-column: span 12; }
+
+  .card--wide {
+    grid-column: span 12;
+    flex-direction: column;
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat:nth-child(2) { border-right: none; }
+  .stat:nth-child(3) { border-right: 1px solid var(--clr-border); }
+
+  .nav { display: none; }
+}
+
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .hero-title { font-size: clamp(4rem, 22vw, 8rem); }
+}
+
+/* ============================================================
+   End of stylesheet — VORTEX © 2024
+   "The best design is the one that makes you feel something
+    you didn't expect to feel."
+   ============================================================ */

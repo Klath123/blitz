@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VORTEX — Digital Collective</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+  <!-- NOISE OVERLAY -->
+  <div class="noise"></div>
+
+  <!-- CURSOR GLOW -->
+  <div class="cursor-glow" id="glow"></div>
+
+  <!-- GRID LINES -->
+  <div class="grid-bg"></div>
+
+  <header class="site-header">
+    <div class="logo">VTX</div>
+    <nav class="nav">
+      <a href="#">Work</a>
+      <a href="#">Lab</a>
+      <a href="#">Void</a>
+    </nav>
+    <div class="header-tag">EST. 2024</div>
+  </header>
+
+  <main>
+
+    <section class="hero">
+      <div class="hero-eyebrow">— COLLECTIVE OF DIGITAL CHAOS —</div>
+      <h1 class="hero-title">
+        <span class="line">WE</span>
+        <span class="line accent">BUILD</span>
+        <span class="line">VORTEX</span>
+      </h1>
+      <p class="hero-sub">Speculative interfaces for futures that don't exist yet. Brutalist by nature. Elegant by accident.</p>
+      <div class="hero-cta">
+        <a href="#" class="btn-primary">Enter the Void</a>
+        <span class="btn-label">↓ scroll into madness</span>
+      </div>
+      <div class="hero-counter">
+        <span>099</span>
+        <span>/</span>
+        <span>100</span>
+      </div>
+    </section>
+
+    <section class="marquee-strip">
+      <div class="marquee-inner">
+        <span>DIGITAL ARTIFACTS &nbsp;✦&nbsp; SPECULATIVE DESIGN &nbsp;✦&nbsp; WEB BRUTALISM &nbsp;✦&nbsp; MOTION SYSTEMS &nbsp;✦&nbsp; CHAOS THEORY &nbsp;✦&nbsp; EXPERIMENTAL UI &nbsp;✦&nbsp;</span>
+        <span>DIGITAL ARTIFACTS &nbsp;✦&nbsp; SPECULATIVE DESIGN &nbsp;✦&nbsp; WEB BRUTALISM &nbsp;✦&nbsp; MOTION SYSTEMS &nbsp;✦&nbsp; CHAOS THEORY &nbsp;✦&nbsp; EXPERIMENTAL UI &nbsp;✦&nbsp;</span>
+      </div>
+    </section>
+
+    <section class="work-grid">
+      <div class="section-label">// SELECTED_WORK</div>
+      <div class="cards">
+        <div class="card card--large">
+          <div class="card-num">001</div>
+          <div class="card-body">
+            <h2>Phantom Protocol</h2>
+            <p>Generative identity systems for entities that shouldn't exist.</p>
+          </div>
+          <div class="card-tag">IDENTITY · 2024</div>
+        </div>
+        <div class="card">
+          <div class="card-num">002</div>
+          <div class="card-body">
+            <h2>Echo Chamber</h2>
+            <p>Data sonification turned into spatial audio architecture.</p>
+          </div>
+          <div class="card-tag">AUDIO · 2024</div>
+        </div>
+        <div class="card">
+          <div class="card-num">003</div>
+          <div class="card-body">
+            <h2>Null Island</h2>
+            <p>An interactive map of coordinates that don't exist.</p>
+          </div>
+          <div class="card-tag">INTERACTIVE · 2023</div>
+        </div>
+        <div class="card card--wide">
+          <div class="card-num">004</div>
+          <div class="card-body">
+            <h2>BLCK_BOX</h2>
+            <p>A dashboard that records everything and explains nothing.</p>
+          </div>
+          <div class="card-tag">SYSTEMS · 2023</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="manifesto">
+      <div class="manifesto-number">§ 01</div>
+      <blockquote>
+        "We refuse to make things comfortable. Comfort is the enemy of memory."
+      </blockquote>
+      <div class="manifesto-sig">— The Collective, 2024</div>
+    </section>
+
+    <section class="stats-row">
+      <div class="stat">
+        <div class="stat-num">74</div>
+        <div class="stat-label">Projects Shipped</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">12</div>
+        <div class="stat-label">Countries Reached</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Loops Unresolved</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">01</div>
+        <div class="stat-label">Ethos</div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-left">VORTEX © 2024</div>
+    <div class="footer-center">ALL SYSTEMS NOMINAL</div>
+    <div class="footer-right">42.3601° N, 71.0589° W</div>
+  </footer>
+
+  <script>
+    const glow = document.getElementById('glow');
+    document.addEventListener('mousemove', e => {
+      glow.style.left = e.clientX + 'px';
+      glow.style.top  = e.clientY + 'px';
+    });
+  </script>
+
+</body>
+</html>
